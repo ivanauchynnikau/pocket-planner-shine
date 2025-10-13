@@ -130,7 +130,7 @@ const Index = () => {
                     Распределено средств
                   </p>
                   <p className="text-3xl font-bold text-foreground">
-                    {income.toLocaleString('ru-RU')} ₽
+                    {income.toLocaleString('ru-RU')} руб
                   </p>
                 </div>
                 <div className="text-right">
