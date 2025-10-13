@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Pencil, Check, X } from "lucide-react";
+import { Pencil, Check, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface CategorySliderProps {
@@ -10,10 +10,12 @@ interface CategorySliderProps {
   percentage: number;
   onChange: (value: number) => void;
   onNameChange: (newName: string) => void;
+  onDelete: () => void;
   color: string;
+  canDelete: boolean;
 }
 
-export const CategorySlider = ({ name, percentage, onChange, onNameChange, color }: CategorySliderProps) => {
+export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDelete, color, canDelete }: CategorySliderProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(name);
 
@@ -68,14 +70,26 @@ export const CategorySlider = ({ name, percentage, onChange, onNameChange, color
               <Label htmlFor={name} className="text-sm font-medium text-foreground">
                 {name}
               </Label>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="h-7 w-7"
-                onClick={() => setIsEditing(true)}
-              >
-                <Pencil className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-              </Button>
+              <div className="flex items-center gap-1">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="h-7 w-7"
+                  onClick={() => setIsEditing(true)}
+                >
+                  <Pencil className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                </Button>
+                {canDelete && (
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-7 w-7"
+                    onClick={onDelete}
+                  >
+                    <Trash2 className="h-3 w-3 text-destructive/70 hover:text-destructive" />
+                  </Button>
+                )}
+              </div>
             </>
           )}
         </div>

@@ -3,46 +3,76 @@ import { IncomeInput } from "@/components/IncomeInput";
 import { CategorySlider } from "@/components/CategorySlider";
 import { ResultCard } from "@/components/ResultCard";
 import { Card } from "@/components/ui/card";
-import { Calculator, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Calculator, TrendingUp, Plus } from "lucide-react";
+
+interface Category {
+  id: string;
+  name: string;
+  percentage: number;
+  color: string;
+}
+
+const availableColors = [
+  "bg-pink-500",
+  "bg-purple-500",
+  "bg-yellow-500",
+  "bg-blue-500",
+  "bg-orange-500",
+  "bg-primary",
+  "bg-green-500",
+  "bg-red-500",
+  "bg-indigo-500",
+  "bg-teal-500",
+];
 
 const Index = () => {
   const [income, setIncome] = useState<number>(100000);
-  const [categories, setCategories] = useState({
-    toys: 10,
-    selfFund: 10,
-    charity: 5,
-    living: 5,
-    education: 5,
-    investments: 30,
-  });
+  const [categories, setCategories] = useState<Category[]>([
+    { id: "1", name: "Игрушки", percentage: 10, color: "bg-pink-500" },
+    { id: "2", name: "Фонд себя", percentage: 10, color: "bg-purple-500" },
+    { id: "3", name: "Благотворительность", percentage: 5, color: "bg-yellow-500" },
+    { id: "4", name: "На жизнь", percentage: 5, color: "bg-blue-500" },
+    { id: "5", name: "Обучение", percentage: 5, color: "bg-orange-500" },
+    { id: "6", name: "Инвестиции", percentage: 30, color: "bg-primary" },
+  ]);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
-  const categoryColors = {
-    toys: "bg-pink-500",
-    selfFund: "bg-purple-500",
-    charity: "bg-yellow-500",
-    living: "bg-blue-500",
-    education: "bg-orange-500",
-    investments: "bg-primary",
+  const updateCategory = (id: string, value: number) => {
+    setCategories(categories.map(cat => 
+      cat.id === id ? { ...cat, percentage: Math.max(0, Math.min(100, value)) } : cat
+    ));
   };
 
-  const [categoryNames, setCategoryNames] = useState({
-    toys: "Игрушки",
-    selfFund: "Фонд себя",
-    charity: "Благотворительность",
-    living: "На жизнь",
-    education: "Обучение",
-    investments: "Инвестиции",
-  });
-
-  const updateCategory = (key: keyof typeof categories, value: number) => {
-    setCategories({ ...categories, [key]: Math.max(0, Math.min(100, value)) });
+  const updateCategoryName = (id: string, newName: string) => {
+    setCategories(categories.map(cat => 
+      cat.id === id ? { ...cat, name: newName } : cat
+    ));
   };
 
-  const updateCategoryName = (key: keyof typeof categoryNames, newName: string) => {
-    setCategoryNames({ ...categoryNames, [key]: newName });
+  const deleteCategory = (id: string) => {
+    setCategories(categories.filter(cat => cat.id !== id));
   };
 
-  const totalPercentage = Object.values(categories).reduce((sum, val) => sum + val, 0);
+  const addCategory = () => {
+    if (!newCategoryName.trim()) return;
+    
+    const usedColors = categories.map(cat => cat.color);
+    const availableColor = availableColors.find(color => !usedColors.includes(color)) || availableColors[0];
+    
+    const newCategory: Category = {
+      id: Date.now().toString(),
+      name: newCategoryName.trim(),
+      percentage: 0,
+      color: availableColor,
+    };
+    
+    setCategories([...categories, newCategory]);
+    setNewCategoryName("");
+  };
+
+  const totalPercentage = categories.reduce((sum, cat) => sum + cat.percentage, 0);
   const remaining = 100 - totalPercentage;
 
   const calculateAmount = (percentage: number) => {
@@ -93,16 +123,37 @@ const Index = () => {
             )}
 
             <div className="grid gap-4">
-              {Object.entries(categories).map(([key, value]) => (
+              {categories.map((category) => (
                 <CategorySlider
-                  key={key}
-                  name={categoryNames[key as keyof typeof categoryNames]}
-                  percentage={value}
-                  onChange={(val) => updateCategory(key as keyof typeof categories, val)}
-                  onNameChange={(newName) => updateCategoryName(key as keyof typeof categoryNames, newName)}
-                  color={categoryColors[key as keyof typeof categoryColors]}
+                  key={category.id}
+                  name={category.name}
+                  percentage={category.percentage}
+                  onChange={(val) => updateCategory(category.id, val)}
+                  onNameChange={(newName) => updateCategoryName(category.id, newName)}
+                  onDelete={() => deleteCategory(category.id)}
+                  color={category.color}
+                  canDelete={categories.length > 1}
                 />
               ))}
+            </div>
+
+            {/* Add Category Form */}
+            <div className="flex gap-2 pt-2">
+              <Input
+                placeholder="Название новой категории"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && addCategory()}
+                className="flex-1 bg-background"
+              />
+              <Button 
+                onClick={addCategory}
+                disabled={!newCategoryName.trim()}
+                className="gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Добавить
+              </Button>
             </div>
           </div>
         </Card>
@@ -115,13 +166,13 @@ const Index = () => {
           </div>
           
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {Object.entries(categories).map(([key, percentage]) => (
+            {categories.map((category) => (
               <ResultCard
-                key={key}
-                name={categoryNames[key as keyof typeof categoryNames]}
-                percentage={percentage}
-                amount={calculateAmount(percentage)}
-                color={categoryColors[key as keyof typeof categoryColors]}
+                key={category.id}
+                name={category.name}
+                percentage={category.percentage}
+                amount={calculateAmount(category.percentage)}
+                color={category.color}
               />
             ))}
           </div>
