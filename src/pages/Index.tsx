@@ -25,17 +25,21 @@ const Index = () => {
     investments: "bg-primary",
   };
 
-  const categoryNames = {
+  const [categoryNames, setCategoryNames] = useState({
     toys: "Игрушки",
     selfFund: "Фонд себя",
     charity: "Благотворительность",
     living: "На жизнь",
     education: "Обучение",
     investments: "Инвестиции",
-  };
+  });
 
   const updateCategory = (key: keyof typeof categories, value: number) => {
     setCategories({ ...categories, [key]: Math.max(0, Math.min(100, value)) });
+  };
+
+  const updateCategoryName = (key: keyof typeof categoryNames, newName: string) => {
+    setCategoryNames({ ...categoryNames, [key]: newName });
   };
 
   const totalPercentage = Object.values(categories).reduce((sum, val) => sum + val, 0);
@@ -95,6 +99,7 @@ const Index = () => {
                   name={categoryNames[key as keyof typeof categoryNames]}
                   percentage={value}
                   onChange={(val) => updateCategory(key as keyof typeof categories, val)}
+                  onNameChange={(newName) => updateCategoryName(key as keyof typeof categoryNames, newName)}
                   color={categoryColors[key as keyof typeof categoryColors]}
                 />
               ))}
