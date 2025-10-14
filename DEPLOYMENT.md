@@ -18,6 +18,15 @@
 4. Поставьте галочку **Allow GitHub Actions to create and approve pull requests**
 5. Нажмите **Save**
 
+### 2.1. Проверка видимости репозитория
+
+**Важно:** Если репозиторий был приватным, убедитесь что:
+1. Перейдите в **Settings** → **General**
+2. Прокрутите вниз до раздела **Danger Zone**
+3. Если репозиторий приватный, нажмите **Change repository visibility**
+4. Выберите **Make public** (для GitHub Pages нужен публичный репозиторий)
+5. Подтвердите изменения
+
 ### 3. Настройка ветки
 
 Убедитесь, что ваш основной код находится в ветке `main` или `master`. GitHub Actions workflow настроен для работы с обеими ветками.
@@ -73,12 +82,24 @@ https://[ваш-username].github.io/pocket-planner-shine-main/
 - Проверьте логи в разделе Actions вашего репозитория
 
 ### Проблема: Ошибка "Write access to repository not granted" (403)
-**Решение:**
+**Решение 1 (Рекомендуемое):**
 - Перейдите в **Settings** → **Actions** → **General**
 - В разделе **Workflow permissions** выберите **Read and write permissions**
 - Поставьте галочку **Allow GitHub Actions to create and approve pull requests**
 - Нажмите **Save**
 - Запустите workflow заново
+
+**Решение 2 (Альтернативное):**
+- Переименуйте файл `.github/workflows/deploy.yml` в `deploy-old.yml`
+- Переименуйте файл `.github/workflows/deploy-alternative.yml` в `deploy.yml`
+- Запушьте изменения - это использует официальный GitHub Pages action
+
+### Проблема: Репозиторий был приватным
+**Решение:**
+- Убедитесь, что репозиторий **публичный** (GitHub Pages работает только с публичными репозиториями)
+- Перейдите в **Settings** → **General** → **Danger Zone**
+- Нажмите **Change repository visibility** → **Make public**
+- После изменения видимости подождите несколько минут и попробуйте деплой снова
 
 ## Структура файлов для деплоя
 
