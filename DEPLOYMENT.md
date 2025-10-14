@@ -47,7 +47,7 @@
 
 После успешного деплоя ваш сайт будет доступен по адресу:
 ```
-https://[ваш-username].github.io/pocket-planner-shine-main/
+https://[ваш-username].github.io/pocket-planner-shine/
 ```
 
 ### 6. Ручной деплой (альтернативный способ)
