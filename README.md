@@ -1,120 +1,83 @@
-# Welcome to your Lovable project
+# Финансовый Калькулятор - Управление Бюджетом
 
-## Project info
+Современный финансовый калькулятор для эффективного управления личным бюджетом. Распределяйте доход по категориям и отслеживайте расходы.
 
-**URL**: https://lovable.dev/projects/cb4003c8-a7e5-4226-8c77-43adf86a3356
+## 🚀 Возможности
 
-## How can I edit this code?
+- **Ввод дохода**: Укажите ваш ежемесячный доход
+- **Категории расходов**: Создавайте и настраивайте категории расходов
+- **Распределение бюджета**: Распределяйте доход по категориям в процентах
+- **Визуализация**: Красивые карточки с результатами расчета
+- **Адаптивный дизайн**: Работает на всех устройствах
 
-There are several ways of editing your application.
+## 🛠️ Технологии
 
-**Use Lovable**
+- **React 18** - современный UI фреймворк
+- **TypeScript** - типизированный JavaScript
+- **Vite** - быстрая сборка и разработка
+- **Tailwind CSS** - утилитарный CSS фреймворк
+- **Shadcn/ui** - компоненты пользовательского интерфейса
+- **React Router** - маршрутизация
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cb4003c8-a7e5-4226-8c77-43adf86a3356) and start prompting.
+## 📦 Установка и запуск
 
-Changes made via Lovable will be committed automatically to this repo.
+### Требования
+- Node.js 18+ 
+- npm или yarn
 
-**Use your preferred IDE**
+### Установка зависимостей
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Запуск в режиме разработки
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Сборка для продакшена
+```bash
+npm run build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Предварительный просмотр сборки
+```bash
+npm run preview
+```
 
-**Use GitHub Codespaces**
+## 🌐 Деплой
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Проект настроен для автоматического деплоя на GitHub Pages. Подробные инструкции смотрите в файле [DEPLOYMENT.md](./DEPLOYMENT.md).
 
-## What technologies are used for this project?
+## 📱 Использование
 
-This project is built with:
+1. **Введите доход**: Укажите ваш ежемесячный доход в рублях
+2. **Настройте категории**: Добавьте категории расходов (например, "Продукты", "Транспорт", "Развлечения")
+3. **Распределите бюджет**: Установите процентное соотношение для каждой категории
+4. **Просмотрите результаты**: Увидьте, сколько денег выделено на каждую категорию
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🎨 Особенности дизайна
 
-## How can I deploy this project?
+- Современный и чистый интерфейс
+- Темная и светлая темы
+- Анимации и переходы
+- Адаптивная верстка для мобильных устройств
+- Интуитивно понятное управление
 
-Simply open [Lovable](https://lovable.dev/projects/cb4003c8-a7e5-4226-8c77-43adf86a3356) and click on Share -> Publish.
+## 📄 Лицензия
 
-## Can I connect a custom domain to my Lovable project?
+Этот проект создан для демонстрационных целей.
 
-Yes, you can!
+## 🤝 Вклад в проект
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Если вы хотите внести свой вклад в проект:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. Форкните репозиторий
+2. Создайте ветку для вашей функции (`git checkout -b feature/AmazingFeature`)
+3. Зафиксируйте изменения (`git commit -m 'Add some AmazingFeature'`)
+4. Отправьте в ветку (`git push origin feature/AmazingFeature`)
+5. Откройте Pull Request
 
-## How can I deploy this project to external hosting?
+## 📞 Поддержка
 
-This project can be deployed to any static hosting service. Here are instructions for popular platforms:
-
-### Vercel
-
-1. Push your code to GitHub (if not already connected)
-2. Visit [vercel.com](https://vercel.com) and sign in
-3. Click "New Project" and import your GitHub repository
-4. Vercel will auto-detect Vite settings
-5. Click "Deploy"
-
-### Netlify
-
-1. Push your code to GitHub (if not already connected)
-2. Visit [netlify.com](https://netlify.com) and sign in
-3. Click "Add new site" → "Import an existing project"
-4. Connect to your GitHub repository
-5. Build settings:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-6. Click "Deploy site"
-
-### GitHub Pages
-
-1. Install gh-pages: `npm install --save-dev gh-pages`
-2. Add to package.json scripts:
-   ```json
-   "predeploy": "npm run build",
-   "deploy": "gh-pages -d dist"
-   ```
-3. Add to vite.config.ts:
-   ```typescript
-   base: '/your-repo-name/'
-   ```
-4. Run: `npm run deploy`
-5. Enable GitHub Pages in repository settings → Pages → Source: gh-pages branch
-
-### Other Platforms
-
-The project can also be deployed to:
-- **Cloudflare Pages**: Connect GitHub repo, set build command to `npm run build` and output to `dist`
-- **Railway**: Connect GitHub repo and it will auto-detect settings
-- **Render**: Create Static Site, connect repo, build command `npm run build`, publish directory `dist`
-
-All these platforms offer free tiers suitable for small to medium projects.
+Если у вас есть вопросы или предложения, создайте issue в репозитории.
