@@ -115,9 +115,12 @@ https://[ваш-username].github.io/pocket-planner-shine/
 
 ### Проблема: 404 ошибка при переходе по прямым ссылкам
 **Решение:**
+- Заменен `BrowserRouter` на `HashRouter` для надежной работы с GitHub Pages
 - Создан файл `public/404.html` для обработки клиентского роутинга
 - Добавлен скрипт в `index.html` для перенаправлений
 - GitHub Pages теперь корректно обрабатывает React Router маршруты
+
+**Примечание:** С HashRouter URL будет выглядеть как `https://username.github.io/repo/#/` вместо `https://username.github.io/repo/`
 
 ## Структура файлов для деплоя
 
