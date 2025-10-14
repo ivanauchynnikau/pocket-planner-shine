@@ -10,25 +10,33 @@
 4. В разделе **Source** выберите **GitHub Actions**
 5. Сохраните изменения
 
-### 2. Настройка ветки
+### 2. Настройка прав доступа для GitHub Actions
+
+1. В настройках репозитория перейдите в раздел **Actions** → **General**
+2. Прокрутите вниз до раздела **Workflow permissions**
+3. Выберите **Read and write permissions**
+4. Поставьте галочку **Allow GitHub Actions to create and approve pull requests**
+5. Нажмите **Save**
+
+### 3. Настройка ветки
 
 Убедитесь, что ваш основной код находится в ветке `main` или `master`. GitHub Actions workflow настроен для работы с обеими ветками.
 
-### 3. Автоматический деплой
+### 4. Автоматический деплой
 
 После настройки GitHub Pages, каждый раз когда вы будете пушить изменения в основную ветку, GitHub Actions автоматически:
 
 1. Соберет проект (`npm run build`)
 2. Задеплоит его на GitHub Pages
 
-### 4. Проверка деплоя
+### 5. Проверка деплоя
 
 После успешного деплоя ваш сайт будет доступен по адресу:
 ```
 https://[ваш-username].github.io/pocket-planner-shine-main/
 ```
 
-### 5. Ручной деплой (альтернативный способ)
+### 6. Ручной деплой (альтернативный способ)
 
 Если вы хотите задеплоить вручную:
 
@@ -63,6 +71,14 @@ https://[ваш-username].github.io/pocket-planner-shine-main/
 - Проверьте, что файл `.github/workflows/deploy.yml` существует
 - Убедитесь, что вы пушите в основную ветку (`main` или `master`)
 - Проверьте логи в разделе Actions вашего репозитория
+
+### Проблема: Ошибка "Write access to repository not granted" (403)
+**Решение:**
+- Перейдите в **Settings** → **Actions** → **General**
+- В разделе **Workflow permissions** выберите **Read and write permissions**
+- Поставьте галочку **Allow GitHub Actions to create and approve pull requests**
+- Нажмите **Save**
+- Запустите workflow заново
 
 ## Структура файлов для деплоя
 
