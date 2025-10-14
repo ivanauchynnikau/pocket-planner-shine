@@ -71,3 +71,50 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## How can I deploy this project to external hosting?
+
+This project can be deployed to any static hosting service. Here are instructions for popular platforms:
+
+### Vercel
+
+1. Push your code to GitHub (if not already connected)
+2. Visit [vercel.com](https://vercel.com) and sign in
+3. Click "New Project" and import your GitHub repository
+4. Vercel will auto-detect Vite settings
+5. Click "Deploy"
+
+### Netlify
+
+1. Push your code to GitHub (if not already connected)
+2. Visit [netlify.com](https://netlify.com) and sign in
+3. Click "Add new site" → "Import an existing project"
+4. Connect to your GitHub repository
+5. Build settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+6. Click "Deploy site"
+
+### GitHub Pages
+
+1. Install gh-pages: `npm install --save-dev gh-pages`
+2. Add to package.json scripts:
+   ```json
+   "predeploy": "npm run build",
+   "deploy": "gh-pages -d dist"
+   ```
+3. Add to vite.config.ts:
+   ```typescript
+   base: '/your-repo-name/'
+   ```
+4. Run: `npm run deploy`
+5. Enable GitHub Pages in repository settings → Pages → Source: gh-pages branch
+
+### Other Platforms
+
+The project can also be deployed to:
+- **Cloudflare Pages**: Connect GitHub repo, set build command to `npm run build` and output to `dist`
+- **Railway**: Connect GitHub repo and it will auto-detect settings
+- **Render**: Create Static Site, connect repo, build command `npm run build`, publish directory `dist`
+
+All these platforms offer free tiers suitable for small to medium projects.
