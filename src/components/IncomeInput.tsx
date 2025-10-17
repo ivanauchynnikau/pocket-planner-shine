@@ -21,10 +21,10 @@ export const IncomeInput = ({ income, onChange }: IncomeInputProps) => {
             value={income || ""}
             onChange={(e) => onChange(Number(e.target.value))}
             placeholder="0"
-            className="text-2xl font-bold h-14 pl-4 pr-12 bg-background border-input focus:border-primary focus:ring-[var(--shadow-glow)] transition-all"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold h-14 md:h-18 lg:h-20 pl-4 pr-12 md:pr-14 lg:pr-16 bg-background border-input focus:border-primary focus:ring-[var(--shadow-glow)] transition-all"
           />
-          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl font-semibold text-muted-foreground">
-            руб
+          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl md:text-2xl lg:text-3xl font-semibold text-muted-foreground">
+            Р
           </span>
         </div>
       </div>

@@ -13,9 +13,10 @@ interface CategorySliderProps {
   onDelete: () => void;
   color: string;
   canDelete: boolean;
+  amount: number;
 }
 
-export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDelete, color, canDelete }: CategorySliderProps) => {
+export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDelete, color, canDelete, amount }: CategorySliderProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(name);
 
@@ -93,7 +94,7 @@ export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDel
             </>
           )}
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <Input
             id={name}
             type="number"
@@ -104,6 +105,9 @@ export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDel
             max="100"
           />
           <span className="text-sm text-muted-foreground">%</span>
+          <span className="text-sm font-semibold text-foreground whitespace-nowrap">
+            {amount.toLocaleString('ru-RU')} Р
+          </span>
         </div>
       </div>
       <Slider

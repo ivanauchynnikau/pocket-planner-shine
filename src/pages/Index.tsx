@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IncomeInput } from "@/components/IncomeInput";
 import { CategorySlider } from "@/components/CategorySlider";
 import { ResultCard } from "@/components/ResultCard";
@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calculator, TrendingUp, Plus } from "lucide-react";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface Category {
   id: string;
@@ -27,17 +28,51 @@ const availableColors = [
   "bg-teal-500",
 ];
 
+const STORAGE_KEYS = {
+  INCOME: "pocket-planner-income",
+  CATEGORIES: "pocket-planner-categories",
+};
+
+const DEFAULT_CATEGORIES: Category[] = [
+  { id: "1", name: "Игрушки", percentage: 10, color: "bg-pink-500" },
+  { id: "2", name: "Фонд себя", percentage: 10, color: "bg-purple-500" },
+  { id: "3", name: "Благотворительность", percentage: 5, color: "bg-yellow-500" },
+  { id: "4", name: "Текущие расходы (авто, дом, питание..)", percentage: 40, color: "bg-blue-500" },
+  { id: "5", name: "Обучение", percentage: 5, color: "bg-orange-500" },
+  { id: "6", name: "Инвестиции", percentage: 30, color: "bg-primary" },
+];
+
+const loadFromStorage = <T,>(key: string, defaultValue: T): T => {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : defaultValue;
+  } catch (error) {
+    console.error(`Error loading ${key} from localStorage:`, error);
+    return defaultValue;
+  }
+};
+
 const Index = () => {
-  const [income, setIncome] = useState<number>(100000);
-  const [categories, setCategories] = useState<Category[]>([
-    { id: "1", name: "Игрушки", percentage: 10, color: "bg-pink-500" },
-    { id: "2", name: "Фонд себя", percentage: 10, color: "bg-purple-500" },
-    { id: "3", name: "Благотворительность", percentage: 5, color: "bg-yellow-500" },
-    { id: "4", name: "На жизнь", percentage: 5, color: "bg-blue-500" },
-    { id: "5", name: "Обучение", percentage: 5, color: "bg-orange-500" },
-    { id: "6", name: "Инвестиции", percentage: 30, color: "bg-primary" },
-  ]);
+  const [income, setIncome] = useState<number>(() => 
+    loadFromStorage(STORAGE_KEYS.INCOME, 10000)
+  );
+  const [categories, setCategories] = useState<Category[]>(() => 
+    loadFromStorage(STORAGE_KEYS.CATEGORIES, DEFAULT_CATEGORIES)
+  );
   const [newCategoryName, setNewCategoryName] = useState("");
+
+  // Debounced values for localStorage
+  const debouncedIncome = useDebounce(income, 500);
+  const debouncedCategories = useDebounce(categories, 500);
+
+  // Save to localStorage with debounce
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.INCOME, JSON.stringify(debouncedIncome));
+  }, [debouncedIncome]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.CATEGORIES, JSON.stringify(debouncedCategories));
+  }, [debouncedCategories]);
 
   const updateCategory = (id: string, value: number) => {
     setCategories(categories.map(cat => 
@@ -81,15 +116,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background py-8 px-4">
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8 pb-24">
         {/* Header */}
         <header className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-[var(--shadow-glow)] mb-4">
-            <Calculator className="w-8 h-8 text-primary-foreground" />
+          <div className="flex items-center justify-center gap-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-[var(--shadow-glow)]">
+              <Calculator className="w-8 h-8 text-primary-foreground" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground">
+              Финансовый Калькулятор
+            </h1>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-            Финансовый Калькулятор
-          </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Управляйте своим бюджетом эффективно. Распределите доход по категориям и увидьте результат.
           </p>
@@ -111,17 +148,6 @@ const Index = () => {
               </div>
             </div>
 
-            {totalPercentage !== 100 && (
-              <div className={`p-4 rounded-lg border ${remaining < 0 ? 'bg-destructive/10 border-destructive/30' : 'bg-accent/10 border-accent/30'}`}>
-                <p className={`text-sm font-medium ${remaining < 0 ? 'text-destructive' : 'text-accent'}`}>
-                  {remaining < 0 
-                    ? `Превышение на ${Math.abs(remaining)}%. Уменьшите значения категорий.`
-                    : `Осталось распределить: ${remaining}%`
-                  }
-                </p>
-              </div>
-            )}
-
             <div className="grid gap-4">
               {categories.map((category) => (
                 <CategorySlider
@@ -133,6 +159,7 @@ const Index = () => {
                   onDelete={() => deleteCategory(category.id)}
                   color={category.color}
                   canDelete={categories.length > 1}
+                  amount={calculateAmount(category.percentage)}
                 />
               ))}
             </div>
@@ -186,7 +213,7 @@ const Index = () => {
                     Распределено средств
                   </p>
                   <p className="text-3xl font-bold text-foreground">
-                    {income.toLocaleString('ru-RU')} руб
+                    {income.toLocaleString('ru-RU')} Р
                   </p>
                 </div>
                 <div className="text-right">
@@ -202,6 +229,22 @@ const Index = () => {
           )}
         </div>
       </div>
+
+      {/* Fixed bottom notification */}
+      {totalPercentage !== 100 && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/95 backdrop-blur-sm border-t border-border shadow-lg">
+          <div className="max-w-7xl mx-auto">
+            <div className={`p-4 rounded-lg border ${remaining < 0 ? 'bg-destructive/10 border-destructive/30' : 'bg-accent/10 border-accent/30'}`}>
+              <p className={`text-sm font-medium text-center ${remaining < 0 ? 'text-destructive' : 'text-accent'}`}>
+                {remaining < 0 
+                  ? `Превышение на ${Math.abs(remaining)}%. Уменьшите значения категорий.`
+                  : `Осталось распределить: ${remaining}%`
+                }
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

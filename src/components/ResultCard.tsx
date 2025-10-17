@@ -17,7 +17,7 @@ export const ResultCard = ({ name, percentage, amount, color }: ResultCardProps)
         </div>
         <div className="space-y-1">
           <div className="text-3xl font-bold text-foreground">
-            {amount.toLocaleString('ru-RU')} руб
+            {amount.toLocaleString('ru-RU')} Р
           </div>
           <div className="text-sm text-muted-foreground">
             {percentage}% от дохода
