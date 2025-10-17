@@ -5,8 +5,9 @@ import { ResultCard } from "@/components/ResultCard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Calculator, TrendingUp, Plus } from "lucide-react";
+import { Calculator, TrendingUp, Plus, ArrowLeft } from "lucide-react";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: string;
@@ -53,6 +54,7 @@ const loadFromStorage = <T,>(key: string, defaultValue: T): T => {
 };
 
 const Index = () => {
+  const navigate = useNavigate();
   const [income, setIncome] = useState<number>(() => 
     loadFromStorage(STORAGE_KEYS.INCOME, 10000)
   );
@@ -117,6 +119,18 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-7xl mx-auto space-y-8 pb-24">
+        {/* Back Button */}
+        <div className="flex justify-start">
+          <Button
+            variant="ghost"
+            onClick={() => navigate('/')}
+            className="gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Назад к описанию
+          </Button>
+        </div>
+
         {/* Header */}
         <header className="text-center space-y-3">
           <div className="flex items-center justify-center gap-4">
