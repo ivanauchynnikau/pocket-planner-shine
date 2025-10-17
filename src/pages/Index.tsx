@@ -34,7 +34,7 @@ const STORAGE_KEYS = {
 };
 
 const DEFAULT_CATEGORIES: Category[] = [
-  { id: "1", name: "Игрушки", percentage: 10, color: "bg-pink-500" },
+  { id: "1", name: "Только для себя", percentage: 10, color: "bg-pink-500" },
   { id: "2", name: "Фонд себя", percentage: 10, color: "bg-purple-500" },
   { id: "3", name: "Благотворительность", percentage: 5, color: "bg-yellow-500" },
   { id: "4", name: "Текущие расходы (авто, дом, питание..)", percentage: 40, color: "bg-blue-500" },
