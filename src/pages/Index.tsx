@@ -133,7 +133,7 @@ const Index = () => {
 
         {/* Header */}
         <header className="text-center space-y-3">
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-2 md:gap-4">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-[var(--shadow-glow)]">
               <Calculator className="w-8 h-8 text-primary-foreground" />
             </div>
