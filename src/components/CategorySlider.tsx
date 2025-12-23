@@ -33,9 +33,9 @@ export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDel
   };
 
   return (
-    <div className="space-y-3 p-4 rounded-lg bg-muted/30 border border-border/50 hover:border-border transition-all">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 flex-1">
+    <div className="space-y-3 p-2 sm:p-4 rounded-lg bg-muted/30 border border-border/50 hover:border-border transition-all overflow-hidden">
+      <div className="flex items-center justify-between gap-2 min-w-0">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
           <span className={`w-3 h-3 rounded-full ${color} flex-shrink-0`}></span>
           {isEditing ? (
             <div className="flex items-center gap-2 flex-1">
@@ -68,7 +68,7 @@ export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDel
             </div>
           ) : (
             <>
-              <Label htmlFor={name} className="text-sm font-medium text-foreground">
+              <Label htmlFor={name} className="text-sm font-medium text-foreground truncate">
                 {name}
               </Label>
               <div className="flex items-center gap-1">
@@ -94,19 +94,19 @@ export const CategorySlider = ({ name, percentage, onChange, onNameChange, onDel
             </>
           )}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
           <Input
             id={name}
             type="number"
             value={percentage}
             onChange={(e) => onChange(Number(e.target.value))}
-            className="w-16 h-8 text-sm text-center bg-background"
+            className="w-14 sm:w-16 h-8 text-xs sm:text-sm text-center bg-background"
             min="0"
             max="100"
           />
-          <span className="text-sm text-muted-foreground">%</span>
-          <span className="text-sm font-semibold text-foreground whitespace-nowrap">
-            {amount.toLocaleString('ru-RU')} Р
+          <span className="text-xs sm:text-sm text-muted-foreground">%</span>
+          <span className="text-xs sm:text-sm font-semibold text-foreground whitespace-nowrap ml-1">
+            {amount.toLocaleString('ru-RU')} byn
           </span>
         </div>
       </div>

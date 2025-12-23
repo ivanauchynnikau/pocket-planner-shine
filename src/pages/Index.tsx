@@ -56,7 +56,7 @@ const loadFromStorage = <T,>(key: string, defaultValue: T): T => {
 const Index = () => {
   const navigate = useNavigate();
   const [income, setIncome] = useState<number>(() => 
-    loadFromStorage(STORAGE_KEYS.INCOME, 10000)
+    loadFromStorage(STORAGE_KEYS.INCOME, 1000)
   );
   const [categories, setCategories] = useState<Category[]>(() => 
     loadFromStorage(STORAGE_KEYS.CATEGORIES, DEFAULT_CATEGORIES)
@@ -117,7 +117,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background py-8 px-4">
+    <div className="min-h-screen bg-background py-8 px-2 sm:px-4">
       <div className="max-w-7xl mx-auto space-y-8 pb-24">
         {/* Back Button */}
         <div className="flex justify-start">
@@ -150,7 +150,7 @@ const Index = () => {
         <IncomeInput income={income} onChange={setIncome} />
 
         {/* Categories */}
-        <Card className="p-6 md:p-8 bg-gradient-to-br from-card to-card/50 shadow-[var(--shadow-medium)] border-border/50">
+        <Card className="p-3 sm:p-6 md:p-8 bg-gradient-to-br from-card to-card/50 shadow-[var(--shadow-medium)] border-border/50">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-foreground">Категории расходов</h2>
@@ -220,14 +220,14 @@ const Index = () => {
 
           {/* Summary Card */}
           {totalPercentage === 100 && (
-            <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 shadow-[var(--shadow-glow)]">
+            <Card className="p-3 sm:p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 shadow-[var(--shadow-glow)]">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-muted-foreground mb-1">
                     Распределено средств
                   </p>
                   <p className="text-3xl font-bold text-foreground">
-                    {income.toLocaleString('ru-RU')} Р
+                    {income.toLocaleString('ru-RU')} byn
                   </p>
                 </div>
                 <div className="text-right">
